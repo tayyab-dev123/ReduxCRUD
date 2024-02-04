@@ -18,7 +18,7 @@ export const createUser = createAsyncThunk(
       const result = await response.json();
       return result;
     } catch (error) {
-      rejectWithValue(error);
+      rejectWithValue(error.toString());
     }
   }
 );
@@ -33,7 +33,7 @@ export const getUsers = createAsyncThunk(
       const result = await response.json();
       return result;
     } catch (error) {
-      rejectWithValue(error);
+      rejectWithValue(error.toString());
     }
   }
 );
@@ -48,7 +48,7 @@ export const deleteUser = createAsyncThunk(
       const result = await response.json();
       return result;
     } catch (error) {
-      rejectWithValue(error);
+      rejectWithValue(error.toString());
     }
   }
 );
@@ -75,7 +75,7 @@ export const updateUser = createAsyncThunk(
       const result = await response.json();
       return result;
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.toString());
     }
   }
 );
@@ -86,8 +86,13 @@ export const userDetail = createSlice({
     users: [],
     isloading: false,
     error: null,
+    searchData: [],
   },
-  reducers: {},
+  reducers: {
+    searchUser: (state, action) => {
+      state.searchData = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(createUser.pending, (state) => {
@@ -143,6 +148,6 @@ export const userDetail = createSlice({
   },
 });
 
-export const { setSearchTerm } = userDetail.actions;
+export const { searchUser } = userDetail.actions;
 
 export default userDetail.reducer;
